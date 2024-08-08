@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
-  
+
   final String title;
 
   @override
@@ -63,14 +63,12 @@ class _LoginPageState extends State<LoginPage> {
       body: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.40,
-            child: const Align(
-              alignment: Alignment.center,
-              child: LoginText(),
-          )),
-          const Expanded(
-            child: LoginCard(),
-          ),
+              height: MediaQuery.of(context).size.height * 0.40,
+              child: const Align(
+                alignment: Alignment.center,
+                child: LoginText(),
+              )),
+          const LoginCard(),
         ],
       ),
     );
@@ -91,7 +89,52 @@ class LoginCard extends StatelessWidget {
         width: double.infinity,
         child: Container(
           decoration: _getDecorationLoginContainer(context),
-          child: const Placeholder(),
+          child: Column(
+            children: [
+              SizedBox(
+                width: 300,
+                height: 200,
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    "Email",
+                    style: GoogleFonts.bebasNeue(
+                        textStyle: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            fontSize: 20)),
+                  ),
+                ),
+              ),              
+              Container(
+                width: 300,
+                height: 50,
+                color: Colors.cyan,
+              ),
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    "Password",
+                    style: GoogleFonts.bebasNeue(
+                        textStyle: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            fontSize: 20)),
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                height: 50,
+                color: Colors.pink,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -109,16 +152,15 @@ class LoginCard extends StatelessWidget {
 }
 
 class LoginText extends StatelessWidget {
-  const LoginText({
-    super.key
-  });
+  const LoginText({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    return  Text(
+    return Text(
       "Login",
-      style: GoogleFonts.bebasNeue(textStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 100)),
+      style: GoogleFonts.bebasNeue(
+          textStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface, fontSize: 100)),
     );
   }
 }
