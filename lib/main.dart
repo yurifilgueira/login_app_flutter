@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -117,7 +118,7 @@ class LoginText extends StatelessWidget {
 
     return  Text(
       "Login",
-      style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 56),
+      style: GoogleFonts.bebasNeue(textStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 100)),
     );
   }
 }
