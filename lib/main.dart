@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -91,65 +93,12 @@ class LoginCard extends StatelessWidget {
         width: double.infinity,
         child: Container(
           decoration: _getDecorationLoginContainer(context),
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 300,
-                height: 50,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer),
-                    ),
-                    labelText: 'Email',
-                    labelStyle: GoogleFonts.bebasNeue(
-                        textStyle: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                            fontSize: 20)),
-                  ),
-                  style: GoogleFonts.bebasNeue(
-                      textStyle: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                          fontSize: 20)),
-                ),
-              ),
-              const SizedBox(height: 30),
-              SizedBox(
-                width: 300,
-                height: 50,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer),
-                    ),
-                    focusColor:
-                        Theme.of(context).colorScheme.onPrimaryContainer,
-                    fillColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                    labelText: 'Password',
-                    labelStyle: GoogleFonts.bebasNeue(
-                        textStyle: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                            fontSize: 20)),
-                  ),
-                  style: GoogleFonts.bebasNeue(
-                      textStyle: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                          fontSize: 20)),
-                ),
-              ),
+              LoginTextField(labelText: "Email"),
+              SizedBox(height: 30),
+              LoginTextField(labelText: "Password", obscureText: true),
             ],
           ),
         ),
@@ -164,6 +113,53 @@ class LoginCard extends StatelessWidget {
         topRight: Radius.circular(40),
       ),
       color: Color.fromRGBO(240, 247, 238, 1),
+    );
+  }
+}
+
+class LoginTextField extends StatefulWidget {
+  final String labelText;
+  final bool obscureText;
+  const LoginTextField({
+    super.key,
+    required this.labelText,
+    this.obscureText = false,
+  });
+
+  @override
+  LoginTextFieldState createState() => LoginTextFieldState();
+}
+
+class LoginTextFieldState extends State<LoginTextField> {
+  @override
+  Widget build(BuildContext context) {
+    final labelText = widget.labelText;
+    final obscureText = widget.obscureText;
+
+    return SizedBox(
+      width: 300,
+      height: 50,
+      child: TextField(
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.onPrimaryContainer),
+          ),
+          focusColor: Theme.of(context).colorScheme.onPrimaryContainer,
+          fillColor: Theme.of(context).colorScheme.onPrimaryContainer,
+          labelText: labelText,
+          labelStyle: GoogleFonts.bebasNeue(
+              textStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  fontSize: 20)),
+        ),
+        style: GoogleFonts.bebasNeue(
+            textStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                fontSize: 20)),
+      ),
     );
   }
 }
