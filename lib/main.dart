@@ -60,16 +60,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Column(
-        children: [
-          SizedBox(
-              height: MediaQuery.of(context).size.height * 0.40,
-              child: const Align(
-                alignment: Alignment.center,
-                child: LoginText(),
-              )),
-          const LoginCard(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+                height: MediaQuery.of(context).size.height * 0.40,
+                child: const Align(
+                  alignment: Alignment.center,
+                  child: LoginText(),
+                )),
+            const LoginCard(),
+          ],
+        ),
       ),
     );
   }
@@ -90,48 +92,63 @@ class LoginCard extends StatelessWidget {
         child: Container(
           decoration: _getDecorationLoginContainer(context),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 width: 300,
-                height: 200,
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    "Email",
-                    style: GoogleFonts.bebasNeue(
+                height: 50,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer),
+                    ),
+                    labelText: 'Email',
+                    labelStyle: GoogleFonts.bebasNeue(
                         textStyle: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme
                                 .onPrimaryContainer,
                             fontSize: 20)),
                   ),
+                  style: GoogleFonts.bebasNeue(
+                      textStyle: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          fontSize: 20)),
                 ),
-              ),              
-              Container(
-                width: 300,
-                height: 50,
-                color: Colors.cyan,
               ),
+              const SizedBox(height: 30),
               SizedBox(
                 width: 300,
                 height: 50,
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    "Password",
-                    style: GoogleFonts.bebasNeue(
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer),
+                    ),
+                    focusColor:
+                        Theme.of(context).colorScheme.onPrimaryContainer,
+                    fillColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                    labelText: 'Password',
+                    labelStyle: GoogleFonts.bebasNeue(
                         textStyle: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme
                                 .onPrimaryContainer,
                             fontSize: 20)),
                   ),
+                  style: GoogleFonts.bebasNeue(
+                      textStyle: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          fontSize: 20)),
                 ),
-              ),
-              Container(
-                width: 300,
-                height: 50,
-                color: Colors.pink,
               ),
             ],
           ),
