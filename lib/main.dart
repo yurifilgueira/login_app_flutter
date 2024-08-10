@@ -1,7 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -93,12 +93,75 @@ class LoginCard extends StatelessWidget {
         width: double.infinity,
         child: Container(
           decoration: _getDecorationLoginContainer(context),
-          child: const Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              LoginTextField(labelText: "Email"),
-              SizedBox(height: 30),
-              LoginTextField(labelText: "Password", obscureText: true),
+              const LoginTextField(labelText: "Email"),
+              const SizedBox(height: 30),
+              const LoginTextField(labelText: "Password", obscureText: true),
+              const SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        final snackBar = SnackBar(
+                          content: Text("Login successful.",
+                              style: getTextStyle(
+                                  Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  20)),
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .onPrimaryContainer
+                              .withAlpha(200),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0)),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer)),
+                      child: Text(
+                        "LogIn",
+                        style: getTextStyle(
+                            Theme.of(context).colorScheme.primaryContainer, 20),
+                      )),
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                      onPressed: () {
+                        final snackBar = SnackBar(
+                          content: Text("Registered successfully.",
+                              style: getTextStyle(
+                                  Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  20)),
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .onPrimaryContainer
+                              .withAlpha(200),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0)),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer)),
+                      child: Text(
+                        "Register",
+                        style: getTextStyle(
+                            Theme.of(context).colorScheme.primaryContainer, 18),
+                      )),
+                ],
+              ),
             ],
           ),
         ),
@@ -169,11 +232,12 @@ class LoginText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "Login",
-      style: GoogleFonts.bebasNeue(
-          textStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface, fontSize: 100)),
-    );
+    return Text("Login",
+        style: getTextStyle(Theme.of(context).colorScheme.onSurface, 100));
   }
+}
+
+TextStyle getTextStyle(Color color, double fontSize) {
+  return GoogleFonts.bebasNeue(
+      textStyle: TextStyle(color: color, fontSize: fontSize));
 }
