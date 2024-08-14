@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/app/data/service/user_service.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -105,21 +108,39 @@ class LoginCard extends StatelessWidget {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        final snackBar = SnackBar(
-                          content: Text("Login successful.",
-                              style: getTextStyle(
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                                  20)),
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .onPrimaryContainer
-                              .withAlpha(200),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24.0)),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        final userServices = UserService();
+
+                        userServices.getUserById(1).then((user) {
+                          if (user != null) {
+                            final email = user.email;
+
+                            if (email != null) {
+                              final snackBar = SnackBar(
+                                content: Text(email,
+                                    style: getTextStyle(
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .primaryContainer,
+                                        20)),
+                                backgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer
+                                    .withAlpha(200),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24.0)),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          }
+                           else {
+                            print('User not found');
+                          }
+                        }).catchError((error) {
+                          print('Request error: $error');
+                        });
+
+                        sleep(Durations.medium4);
                       },
                       style: ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(
