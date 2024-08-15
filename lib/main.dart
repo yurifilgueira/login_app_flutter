@@ -1,10 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/app/data/service/user_service.dart';
-import 'package:provider/provider.dart';
+import 'package:login_app/app/pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: _getColorScheme(),
         useMaterial3: true,
       ),
-      home: const LoginPage(title: 'Flutter Demo Home Page'),
+      home: const LoginPage(),
     );
   }
 
@@ -52,9 +47,7 @@ class MyApp extends StatelessWidget {
 }
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
-
-  final String title;
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -80,185 +73,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
-
-class LoginCard extends StatelessWidget {
-  const LoginCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.60,
-        width: double.infinity,
-        child: Container(
-          decoration: _getDecorationLoginContainer(context),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const LoginTextField(labelText: "Email"),
-              const SizedBox(height: 30),
-              const LoginTextField(labelText: "Password", obscureText: true),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        final userServices = UserService();
-
-                        userServices.getUserById(1).then((user) {
-                          if (user != null) {
-                            final email = user.email;
-
-                            if (email != null) {
-                              final snackBar = SnackBar(
-                                content: Text(email,
-                                    style: getTextStyle(
-                                        Theme.of(context)
-                                            .colorScheme
-                                            .primaryContainer,
-                                        20)),
-                                backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer
-                                    .withAlpha(200),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24.0)),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }
-                          }
-                           else {
-                            print('User not found');
-                          }
-                        }).catchError((error) {
-                          print('Request error: $error');
-                        });
-
-                        sleep(Durations.medium4);
-                      },
-                      style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(
-                              Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer)),
-                      child: Text(
-                        "LogIn",
-                        style: getTextStyle(
-                            Theme.of(context).colorScheme.primaryContainer, 20),
-                      )),
-                  const SizedBox(width: 20),
-                  ElevatedButton(
-                      onPressed: () {
-                        final snackBar = SnackBar(
-                          content: Text("Registered successfully.",
-                              style: getTextStyle(
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                                  20)),
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .onPrimaryContainer
-                              .withAlpha(200),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24.0)),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      },
-                      style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(
-                              Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer)),
-                      child: Text(
-                        "Register",
-                        style: getTextStyle(
-                            Theme.of(context).colorScheme.primaryContainer, 18),
-                      )),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  BoxDecoration _getDecorationLoginContainer(BuildContext context) {
-    return const BoxDecoration(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(40),
-        topRight: Radius.circular(40),
-      ),
-      color: Color.fromRGBO(240, 247, 238, 1),
-    );
-  }
-}
-
-class LoginTextField extends StatefulWidget {
-  final String labelText;
-  final bool obscureText;
-  const LoginTextField({
-    super.key,
-    required this.labelText,
-    this.obscureText = false,
-  });
-
-  @override
-  LoginTextFieldState createState() => LoginTextFieldState();
-}
-
-class LoginTextFieldState extends State<LoginTextField> {
-  @override
-  Widget build(BuildContext context) {
-    final labelText = widget.labelText;
-    final obscureText = widget.obscureText;
-
-    return SizedBox(
-      width: 300,
-      height: 50,
-      child: TextField(
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.onPrimaryContainer),
-          ),
-          focusColor: Theme.of(context).colorScheme.onPrimaryContainer,
-          fillColor: Theme.of(context).colorScheme.onPrimaryContainer,
-          labelText: labelText,
-          labelStyle: GoogleFonts.bebasNeue(
-              textStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  fontSize: 20)),
-        ),
-        style: GoogleFonts.bebasNeue(
-            textStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                fontSize: 20)),
-      ),
-    );
-  }
-}
-
-class LoginText extends StatelessWidget {
-  const LoginText({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text("Login",
-        style: getTextStyle(Theme.of(context).colorScheme.onSurface, 100));
-  }
-}
-
-TextStyle getTextStyle(Color color, double fontSize) {
-  return GoogleFonts.bebasNeue(
-      textStyle: TextStyle(color: color, fontSize: fontSize));
 }
