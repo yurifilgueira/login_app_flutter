@@ -30,3 +30,40 @@ getColorScheme() {
     onSurface: onPrimary,
   );
 }
+
+getEmailInputDecoration(color) {
+  return InputDecoration(
+    border: const OutlineInputBorder(),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: color),
+    ),
+    focusColor: color,
+    fillColor: color,
+    hoverColor: color,
+    labelText: 'Email',
+    labelStyle: textFont(textStyle: TextStyle(color: color, fontSize: 20)),
+  );
+}
+
+getPasswordInputDecoration(color, passwordIcon, changePasswordVisbility) {
+  
+  
+  return InputDecoration(
+    border: const OutlineInputBorder(),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: color),
+    ),
+    focusColor: color,
+    fillColor: color,
+    hoverColor: color,
+    labelText: 'Password',
+    labelStyle: textFont(
+        textStyle: TextStyle(color: color, fontSize: 20)),
+    suffixIcon: IconButton(
+      icon: Icon(passwordIcon, color: color),
+      onPressed: () {
+        changePasswordVisbility();
+      },
+    ),
+  );
+}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/app/widgets/auth_actions_widget.dart';
-import 'package:login_app/app/widgets/login_textfield.dart';
+import 'package:login_app/app/widgets/email_text_field.dart';
 import 'package:login_app/app/widgets/password_textfield.dart';
 
 class LoginCard extends StatelessWidget {
@@ -10,7 +10,6 @@ class LoginCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
@@ -25,15 +24,13 @@ class LoginCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                LoginTextField(labelText: "Email", controller: emailController),
+                EmailTextField(controller: emailController),
                 const SizedBox(height: 30),
-                PasswordTextField(
-                    labelText: "Password", controller: passwordController),
+                PasswordTextField(controller: passwordController),
                 const SizedBox(height: 50),
-                AuthActions(
+                AuthActions.login(
                   emailController: emailController,
                   passwordController: passwordController,
-                  formKey: formKey,
                 ),
               ],
             ),
