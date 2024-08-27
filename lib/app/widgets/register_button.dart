@@ -12,8 +12,9 @@ class RegisterButton extends StatelessWidget {
 
     return ElevatedButton(
         onPressed: () {
-          final snackBar = _getRegisterSnackBar(textTheme, context);
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          if (ModalRoute.of(context)?.settings.name != '/register') {
+            Navigator.pushNamed(context, '/register');
+          }
         },
         style: ButtonStyle(
             backgroundColor:
@@ -22,15 +23,5 @@ class RegisterButton extends StatelessWidget {
           "Register",
           style: getTextStyle(textTheme.primaryContainer, 18),
         ));
-  }
-
-  SnackBar _getRegisterSnackBar(ColorScheme textTheme, BuildContext context) {
-    return SnackBar(
-      content: Text("Registered successfully.",
-          style: getTextStyle(textTheme.primaryContainer, 20)),
-      backgroundColor:
-          textTheme.onPrimaryContainer.withAlpha(200),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
-    );
   }
 }

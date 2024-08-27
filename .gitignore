@@ -43,4 +43,7 @@ app.*.map.json
 /android/app/release
 
 # Assets
-/assets
+.env
+
+#Firebase
+*firebase*
