@@ -30,4 +30,20 @@ class LoginAppApi {
     }
     return null;
   }
+
+  Future<http.Response> register(
+      String name, String email, String password) async {
+    var client = http.Client();
+    var uri = Uri.parse('$path/users/register');
+    var body = {
+      'name': name,
+      'email': email,
+      'password': password,
+      'roles': ['ROLE_CUSTOMER']
+    };
+    var contentType = {'Content-Type': 'application/json'};
+
+    // Send the POST request and return the response
+    return await client.post(uri, headers: contentType, body: jsonEncode(body));
+  }
 }

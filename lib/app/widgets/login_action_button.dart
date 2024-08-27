@@ -19,22 +19,22 @@ class LoginActionButton extends StatelessWidget {
         onPressed: () {
           try {
             final loginAppApiServices = LoginAppApiServices();
-    
-            final email = emailController.text;
+
+            final email = emailController.text.toLowerCase();
             final password = passwordController.text.toLowerCase();
-    
+
             const flutterSecureStorage = FlutterSecureStorage();
             loginAppApiServices.signin(email, password).then((token) {
               if (token != null) {
                 final accessToken = token.accessToken;
                 final refreshToken = token.refreshToken;
-    
+
                 if (accessToken != null && refreshToken != null) {
                   flutterSecureStorage.write(
                       key: "accessToken", value: accessToken);
                   flutterSecureStorage.write(
                       key: "refreshToken", value: refreshToken);
-    
+
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -55,8 +55,8 @@ class LoginActionButton extends StatelessWidget {
                 Theme.of(context).colorScheme.onPrimaryContainer)),
         child: Text(
           "LogIn",
-          style: getTextStyle(
-              Theme.of(context).colorScheme.primaryContainer, 20),
+          style:
+              getTextStyle(Theme.of(context).colorScheme.primaryContainer, 20),
         ));
   }
 }

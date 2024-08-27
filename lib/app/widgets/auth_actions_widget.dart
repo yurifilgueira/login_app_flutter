@@ -33,8 +33,12 @@ class AuthActions extends StatelessWidget {
           isRegisterPage: isRegisterPage,
         ),
         const SizedBox(width: 20),
-        const RegisterButton.login(),
+        getRegisterButton(usernameController, emailController, passwordController),
       ],
     );
+  }
+
+  RegisterButton getRegisterButton(usernameController, emailController, passwordController) {
+    return isRegisterPage ? RegisterButton.register(usernameController: usernameController, emailController: emailController, passwordController: passwordController) : const RegisterButton.login();
   }
 }
