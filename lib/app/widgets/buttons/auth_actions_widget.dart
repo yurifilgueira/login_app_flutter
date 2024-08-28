@@ -26,19 +26,43 @@ class AuthActions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: getButtons(isRegisterPage),
+    );
+  }
+
+  List<Widget> getButtons(bool isRegisterPage) {
+    if (isRegisterPage) {
+      return [
+        getRegisterButton(
+            usernameController, emailController, passwordController),
+        const SizedBox(width: 20),
+        LoginButton(
+          emailController: emailController,
+          passwordController: passwordController,
+          isRegisterPage: isRegisterPage,
+        ),
+      ];
+    } else {
+      return [
         LoginButton(
           emailController: emailController,
           passwordController: passwordController,
           isRegisterPage: isRegisterPage,
         ),
         const SizedBox(width: 20),
-        getRegisterButton(usernameController, emailController, passwordController),
-      ],
-    );
+        getRegisterButton(
+            usernameController, emailController, passwordController),
+      ];
+    }
   }
 
-  RegisterButton getRegisterButton(usernameController, emailController, passwordController) {
-    return isRegisterPage ? RegisterButton.register(usernameController: usernameController, emailController: emailController, passwordController: passwordController) : const RegisterButton.login();
+  RegisterButton getRegisterButton(
+      usernameController, emailController, passwordController) {
+    return isRegisterPage
+        ? RegisterButton.register(
+            usernameController: usernameController,
+            emailController: emailController,
+            passwordController: passwordController)
+        : const RegisterButton.login();
   }
 }

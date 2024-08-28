@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/app/data/providers/globals.dart';
 import 'package:login_app/app/data/services/app_local_storage_services.dart';
-import 'package:login_app/app/widgets/buttons/auth_actions_widget.dart';
+import 'package:login_app/app/widgets/buttons/back_to_login_screen_button.dart';
 import 'package:login_app/app/widgets/forms/email_text_field.dart';
 import 'package:login_app/app/widgets/forms/password_textfield.dart';
 
@@ -44,11 +44,7 @@ class AccountDetails extends StatelessWidget {
               const SizedBox(height: 30),
               PasswordTextField(controller: passwordController),
               const SizedBox(height: 50),
-              AuthActions.register(
-                usernameController: usernameController,
-                emailController: emailController,
-                passwordController: passwordController,
-              ),
+              const BackToLoginScreenButton(),
             ],
           )),
         ),

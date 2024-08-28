@@ -53,4 +53,8 @@ class AppLocalStorageServices {
   String getEmail() {
     return _getData('email');
   }
+
+  void clear() {
+    _preferences!.clear();
+  }
 }
