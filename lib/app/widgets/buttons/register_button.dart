@@ -109,7 +109,7 @@ class RegisterActionButton extends StatelessWidget {
             backgroundColor:
                 WidgetStatePropertyAll(textTheme.onPrimaryContainer)),
         child: Text(
-          "Sing Up",
+          "Register",
           style: getTextStyle(textTheme.primaryContainer, 18),
         ));
   }

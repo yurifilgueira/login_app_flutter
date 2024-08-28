@@ -17,7 +17,7 @@ class LoginAppApi {
     return null;
   }
 
-  Future<LoginResponse?> signin(String email, String password) async {
+  Future<LoginResponse> signin(String email, String password) async {
     var client = http.Client();
     var uri = Uri.parse('$path/auth/signin');
     var body = {'email': email, 'password': password};
@@ -26,11 +26,11 @@ class LoginAppApi {
         await client.post(uri, headers: contentType, body: jsonEncode(body));
 
     if (response.statusCode == 200) {
-      
-      //TO-DO LoginResponse Json converter
-      //return tokenFromJson(const Utf8Decoder().convert(response.bodyBytes));
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      return LoginResponse.fromJson(data);
+    } else {
+      throw Exception('Login failed with status code: ${response.statusCode}');
     }
-    return null;
   }
 
   Future<http.Response> register(

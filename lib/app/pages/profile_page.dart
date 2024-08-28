@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:login_app/app/widgets/forms/login_widgets/login_card.dart';
+import 'package:login_app/app/widgets/forms/account_details_widgets/account_details.dart';
 import 'package:login_app/app/widgets/title_widget.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({
+    super.key,
+  });
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ProfilePage> createState() => ProfilePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
-                height: MediaQuery.of(context).size.height * 0.40,
+                height: MediaQuery.of(context).size.height * 0.20,
                 child: const Align(
                   alignment: Alignment.center,
-                  child: TitleWidget(title: "Login",),
+                  child: TitleWidget(title: "Profile",),
                 )),
-            const LoginCard(),
+            const AccountDetails(),
           ],
         ),
       ),
     );
+
   }
 }

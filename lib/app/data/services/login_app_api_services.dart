@@ -9,7 +9,7 @@ class LoginAppApiServices {
     return _api.getUserById(id);
   }
 
-  Future<LoginResponse?> signin(String email, String passowrd) async {
+  Future<LoginResponse> signin(String email, String passowrd) async {
     return _api.signin(email, passowrd);
   }
 

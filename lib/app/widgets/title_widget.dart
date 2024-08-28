@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/app/data/providers/globals.dart';
 
-class LoginText extends StatelessWidget {
-  const LoginText({super.key});
+class TitleWidget extends StatelessWidget {
+
+  final String title;
+
+  const TitleWidget({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    return Text("Login",
+    return Text(title,
         style: textFont(
             textStyle: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:login_app/app/widgets/login_button.dart';
-import 'package:login_app/app/widgets/register_button.dart';
+import 'package:login_app/app/widgets/buttons/login_button.dart';
+import 'package:login_app/app/widgets/buttons/register_button.dart';
 
 class AuthActions extends StatelessWidget {
   final TextEditingController? usernameController;

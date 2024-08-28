@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:login_app/app/widgets/auth_actions_widget.dart';
-import 'package:login_app/app/widgets/email_text_field.dart';
-import 'package:login_app/app/widgets/password_textfield.dart';
+import 'package:login_app/app/widgets/buttons/auth_actions_widget.dart';
+import 'package:login_app/app/widgets/forms/email_text_field.dart';
+import 'package:login_app/app/widgets/forms/password_textfield.dart';
 
 class LoginCard extends StatelessWidget {
   const LoginCard({

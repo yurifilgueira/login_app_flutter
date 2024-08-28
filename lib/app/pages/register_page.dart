@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:login_app/app/widgets/register_card.dart';
-import 'package:login_app/app/widgets/register_text.dart';
+import 'package:login_app/app/widgets/forms/register_widgets/register_card.dart';
+import 'package:login_app/app/widgets/title_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -21,7 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: MediaQuery.of(context).size.height * 0.20,
                 child: const Align(
                   alignment: Alignment.center,
-                  child: RegisterText(),
+                  child: TitleWidget(title: "Register"),
                 )),
             const RegisterCard(),
           ],

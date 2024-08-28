@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:login_app/app/widgets/back_to_login_screen_button.dart';
-import 'package:login_app/app/widgets/login_action_button.dart';
+import 'package:login_app/app/widgets/buttons/back_to_login_screen_button.dart';
+import 'package:login_app/app/widgets/buttons/login_action_button.dart';
 
 class LoginButton extends StatelessWidget {
   final TextEditingController emailController;
