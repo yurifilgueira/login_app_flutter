@@ -1,4 +1,4 @@
-import 'package:login_app/app/data/models/token.dart';
+import 'package:login_app/app/data/models/login_response.dart';
 import 'package:login_app/app/data/models/user.dart';
 import 'package:login_app/app/data/providers/login_app_api.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +9,7 @@ class LoginAppApiServices {
     return _api.getUserById(id);
   }
 
-  Future<Token?> signin(String email, String passowrd) async {
+  Future<LoginResponse?> signin(String email, String passowrd) async {
     return _api.signin(email, passowrd);
   }
 

@@ -16,40 +16,7 @@ class LoginActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () {
-          try {
-            final loginAppApiServices = LoginAppApiServices();
-
-            final email = emailController.text.toLowerCase();
-            final password = passwordController.text.toLowerCase();
-
-            const flutterSecureStorage = FlutterSecureStorage();
-            loginAppApiServices.signin(email, password).then((token) {
-              if (token != null) {
-                final accessToken = token.accessToken;
-                final refreshToken = token.refreshToken;
-
-                if (accessToken != null && refreshToken != null) {
-                  flutterSecureStorage.write(
-                      key: "accessToken", value: accessToken);
-                  flutterSecureStorage.write(
-                      key: "refreshToken", value: refreshToken);
-
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Placeholder()));
-                }
-              } else {
-                throw ('Invalid email or password');
-              }
-            }).catchError((error) {
-              throw ('Request error: $error');
-            });
-          } catch (error) {
-            throw ('Error: $error');
-          }
-        },
+        onPressed: login,
         style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(
                 Theme.of(context).colorScheme.onPrimaryContainer)),
@@ -59,4 +26,23 @@ class LoginActionButton extends StatelessWidget {
               getTextStyle(Theme.of(context).colorScheme.primaryContainer, 20),
         ));
   }
+
+  void login() {
+        try {
+          final loginAppApiServices = LoginAppApiServices();
+  
+          final email = emailController.text.toLowerCase();
+          final password = passwordController.text.toLowerCase();
+  
+          const flutterSecureStorage = FlutterSecureStorage();
+          loginAppApiServices
+              .signin(email, password)
+              .then((loginResponse) {})
+              .catchError((error) {
+            throw ('Request error: $error');
+          });
+        } catch (error) {
+          throw ('Error: $error');
+        }
+      }
 }

@@ -7,9 +7,9 @@ String userListToJson(List<User> data) => json.encode(List<dynamic>.from(data.ma
 
 class User {
 
-  int? id;
-  String? name;
-  String? email;
+  int id;
+  String name;
+  String email;
 
   User({
     required this.id,
@@ -19,9 +19,9 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json["id"] ?? json["id"],
-      name: json["name"] ?? json["name"],
-      email: json["email"] ?? json["email"],
+      id: json["id"],
+      name: json["name"],
+      email: json["email"],
     );
   }
 
