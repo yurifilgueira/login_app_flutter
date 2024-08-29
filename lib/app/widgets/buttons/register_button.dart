@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/app/data/providers/globals.dart';
 import 'package:login_app/app/data/services/login_app_api_services.dart';
+import 'package:login_app/app/pages/register_page.dart';
 
 class RegisterButton extends StatelessWidget {
   final bool isRegisterPage;
@@ -51,9 +52,8 @@ class GoToRegisterPageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         onPressed: () {
-          if (ModalRoute.of(context)?.settings.name != '/register') {
-            Navigator.pushNamed(context, '/register');
-          }
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const RegisterPage()));
         },
         style: ButtonStyle(
             backgroundColor:
@@ -80,30 +80,33 @@ class RegisterActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryContainerColor =
+        Theme.of(context).colorScheme.primaryContainer;
+    final onPrimaryContainerColor =
+        Theme.of(context).colorScheme.onPrimaryContainer;
+
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
     return ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           final loginAppApiServices = LoginAppApiServices();
 
           final username = usernameController.text.toLowerCase();
           final email = emailController.text.toLowerCase();
           final password = passwordController.text.toLowerCase();
 
-          loginAppApiServices
-              .register(username, email, password)
-              .then((response) {
-            final snackBar = SnackBar(
-              content: Text(response.body,
-                  style: getTextStyle(
-                      Theme.of(context).colorScheme.primaryContainer, 20)),
-              backgroundColor: Theme.of(context)
-                  .colorScheme
-                  .onPrimaryContainer
-                  .withAlpha(200),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24.0)),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          });
+          final response =
+              await loginAppApiServices.register(username, email, password);
+
+          final snackBar = SnackBar(
+            content: Text(response.body,
+                style: getTextStyle(primaryContainerColor, 20)),
+            backgroundColor: onPrimaryContainerColor.withAlpha(200),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0)),
+          );
+
+          scaffoldMessenger.showSnackBar(snackBar);
         },
         style: ButtonStyle(
             backgroundColor:

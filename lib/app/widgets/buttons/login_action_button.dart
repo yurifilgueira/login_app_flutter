@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login_app/app/data/providers/globals.dart';
 import 'package:login_app/app/data/services/app_local_storage_services.dart';
 import 'package:login_app/app/data/services/login_app_api_services.dart';
+import 'package:login_app/app/pages/profile_page.dart';
 
 class LoginActionButton extends StatelessWidget {
   const LoginActionButton({
@@ -34,7 +35,6 @@ class LoginActionButton extends StatelessWidget {
       final email = emailController.text.toLowerCase();
       final password = passwordController.text.toLowerCase();
 
-      // Aguarda o resultado da autenticação
       final loginResponse = await loginAppApiServices.signin(email, password);
 
       final localStorage = await AppLocalStorageServices.getInstance();
@@ -44,14 +44,18 @@ class LoginActionButton extends StatelessWidget {
       await localStorage.setUsername(username);
       await localStorage.setEmail(email);
 
-      // Navega para a próxima tela
-      Navigator.pushReplacementNamed(context, '/profile');
+      if (context.mounted) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ProfilePage()));
+      }
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Ocorreu um erro: $error'),
-        ),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Ocorreu um erro: $error'),
+          ),
+        );
+      }
     }
   }
 }

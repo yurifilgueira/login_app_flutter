@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_app/app/data/providers/globals.dart';
 import 'package:login_app/app/data/services/app_local_storage_services.dart';
+import 'package:login_app/app/pages/login_page.dart';
 
 class BackToLoginScreenButton extends StatelessWidget {
   const BackToLoginScreenButton({
@@ -10,11 +11,14 @@ class BackToLoginScreenButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () {
-          AppLocalStorageServices.getInstance().then((localStorage) {
-            localStorage.clear();
-            Navigator.pushReplacementNamed(context, '/login');
-          });
+        onPressed: () async {
+          final localStorage = await AppLocalStorageServices.getInstance();
+          localStorage.clear();
+
+          if (context.mounted) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const LoginPage()));
+          }
         },
         style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(
