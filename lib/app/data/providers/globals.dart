@@ -45,7 +45,7 @@ getEmailInputDecoration(color) {
   );
 }
 
-getPasswordInputDecoration(color, passwordIcon, changePasswordVisbility) {
+getPasswordInputDecoration(color, labelText, passwordIcon, changePasswordVisbility) {
   
   
   return InputDecoration(
@@ -56,7 +56,7 @@ getPasswordInputDecoration(color, passwordIcon, changePasswordVisbility) {
     focusColor: color,
     fillColor: color,
     hoverColor: color,
-    labelText: 'Password',
+    labelText: labelText,
     labelStyle: textFont(
         textStyle: TextStyle(color: color, fontSize: 20)),
     suffixIcon: IconButton(

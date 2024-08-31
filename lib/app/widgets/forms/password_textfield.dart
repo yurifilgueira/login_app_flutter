@@ -3,8 +3,9 @@ import 'package:login_app/app/data/providers/globals.dart';
 
 class PasswordTextField extends StatefulWidget {
   final TextEditingController controller;
+  final labelText;
 
-  const PasswordTextField({super.key, required this.controller});
+  const PasswordTextField({super.key, required this.controller, required this.labelText});
 
   @override
   State<PasswordTextField> createState() => PasswordTextFieldState();
@@ -16,6 +17,7 @@ class PasswordTextFieldState extends State<PasswordTextField> {
 
   @override
   Widget build(BuildContext context) {
+    var labelText = widget.labelText;
     var colorOnPrimaryContainer =
         Theme.of(context).colorScheme.onPrimaryContainer;
 
@@ -37,7 +39,7 @@ class PasswordTextFieldState extends State<PasswordTextField> {
       child: TextFormField(
         obscureText: obscureText,
         decoration: getPasswordInputDecoration(
-            colorOnPrimaryContainer, passwordIcon, changePasswordVisbility),
+            colorOnPrimaryContainer, labelText, passwordIcon, changePasswordVisbility),
         style: textFont(
             textStyle: TextStyle(color: colorOnPrimaryContainer, fontSize: 20)),
         controller: widget.controller,

@@ -26,7 +26,7 @@ class LoginCard extends StatelessWidget {
               children: [
                 EmailTextField(controller: emailController),
                 const SizedBox(height: 30),
-                PasswordTextField(controller: passwordController),
+                PasswordTextField(controller: passwordController, labelText: 'Password',),
                 const SizedBox(height: 50),
                 AuthActions.login(
                   emailController: emailController,

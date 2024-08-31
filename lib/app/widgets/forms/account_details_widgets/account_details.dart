@@ -12,7 +12,8 @@ class AccountDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController usernameController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController newPasswordController = TextEditingController();
+    final TextEditingController confirmNewPasswordController = TextEditingController();
 
     final appLocalStorageServices = AppLocalStorageServices.getInstance();
 
@@ -42,7 +43,12 @@ class AccountDetails extends StatelessWidget {
               const SizedBox(height: 30),
               EmailTextField(controller: emailController),
               const SizedBox(height: 30),
-              PasswordTextField(controller: passwordController),
+              PasswordTextField(
+                  controller: newPasswordController, labelText: 'New Password'),
+              const SizedBox(height: 30),
+              PasswordTextField(
+                  controller: confirmNewPasswordController,
+                  labelText: 'Confirm Password'),
               const SizedBox(height: 50),
               const BackToLoginScreenButton(),
             ],
