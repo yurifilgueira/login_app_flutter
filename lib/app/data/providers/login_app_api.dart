@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:login_app/app/data/models/login_response.dart';
@@ -45,7 +46,29 @@ class LoginAppApi {
     };
     var contentType = {'Content-Type': 'application/json'};
 
-    // Send the POST request and return the response
     return await client.post(uri, headers: contentType, body: jsonEncode(body));
+  }
+
+  Future<LoginResponse> updateUserInfo(Long id, String name, String email,
+      String newPassword, String confirmNewPassword) async {
+    var client = http.Client();
+    var uri = Uri.parse('$path/auth/signin');
+    var body = {
+      'id': id,
+      'name': name,
+      'email': email,
+      'newPassword': newPassword,
+      'confirmNewPassword': confirmNewPassword
+    };
+    var contentType = {'Content-Type': 'application/json'};
+    var response =
+        await client.post(uri, headers: contentType, body: jsonEncode(body));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      return LoginResponse.fromJson(data);
+    } else {
+      throw Exception('Login failed with status code: ${response.statusCode}');
+    }
   }
 }
