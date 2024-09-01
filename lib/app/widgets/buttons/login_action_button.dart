@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:login_app/app/data/providers/globals.dart';
 import 'package:login_app/app/data/services/app_local_storage_services.dart';
 import 'package:login_app/app/data/services/login_app_api_services.dart';
@@ -37,12 +38,18 @@ class LoginActionButton extends StatelessWidget {
 
       final loginResponse = await loginAppApiServices.signin(email, password);
 
+      const flutterSecureStorage = FlutterSecureStorage();
       final localStorage = await AppLocalStorageServices.getInstance();
 
       final username = loginResponse.user.name;
 
       await localStorage.setUsername(username);
       await localStorage.setEmail(email);
+
+      await flutterSecureStorage.write(
+          key: 'accessToken', value: loginResponse.tokenResponse.accessToken);
+      await flutterSecureStorage.write(
+          key: 'refreshToken', value: loginResponse.tokenResponse.refreshToken);
 
       if (context.mounted) {
         Navigator.pushReplacement(context,

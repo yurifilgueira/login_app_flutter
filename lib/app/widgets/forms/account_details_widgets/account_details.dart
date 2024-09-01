@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:login_app/app/data/providers/globals.dart';
 import 'package:login_app/app/data/services/app_local_storage_services.dart';
 import 'package:login_app/app/widgets/buttons/back_to_login_screen_button.dart';
+import 'package:login_app/app/widgets/buttons/save_changes_button.dart';
 import 'package:login_app/app/widgets/forms/email_text_field.dart';
 import 'package:login_app/app/widgets/forms/password_textfield.dart';
 
@@ -13,11 +15,12 @@ class AccountDetails extends StatelessWidget {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController usernameController = TextEditingController();
     final TextEditingController newPasswordController = TextEditingController();
-    final TextEditingController confirmNewPasswordController = TextEditingController();
+    final TextEditingController confirmNewPasswordController =
+        TextEditingController();
 
     final appLocalStorageServices = AppLocalStorageServices.getInstance();
-
-    appLocalStorageServices.then((localStorage) {
+    const sec = FlutterSecureStorage();
+    appLocalStorageServices.then((localStorage) async {
       usernameController.text = localStorage.getUsername();
       emailController.text = localStorage.getEmail();
     });
@@ -50,7 +53,18 @@ class AccountDetails extends StatelessWidget {
                   controller: confirmNewPasswordController,
                   labelText: 'Confirm Password'),
               const SizedBox(height: 50),
-              const BackToLoginScreenButton(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                SaveChangesButton(
+                  emailController: emailController,
+                  usernameController: usernameController,
+                  newPasswordController: newPasswordController,
+                  confirmNewPasswordController: confirmNewPasswordController,
+                ),
+                const SizedBox(width: 20),
+                const BackToLoginScreenButton(),
+              ]),
             ],
           )),
         ),

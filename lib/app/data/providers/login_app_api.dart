@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:login_app/app/data/models/login_response.dart';
@@ -49,7 +48,7 @@ class LoginAppApi {
     return await client.post(uri, headers: contentType, body: jsonEncode(body));
   }
 
-  Future<LoginResponse> updateUserInfo(Long id, String name, String email,
+  Future<LoginResponse> updateUserInfo(int id, String name, String email,
       String newPassword, String confirmNewPassword) async {
     var client = http.Client();
     var uri = Uri.parse('$path/auth/signin');
