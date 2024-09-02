@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:login_app/app/data/providers/globals.dart';
 import 'package:login_app/app/data/services/app_local_storage_services.dart';
 import 'package:login_app/app/widgets/buttons/back_to_login_screen_button.dart';
@@ -19,7 +18,6 @@ class AccountDetails extends StatelessWidget {
         TextEditingController();
 
     final appLocalStorageServices = AppLocalStorageServices.getInstance();
-    const sec = FlutterSecureStorage();
     appLocalStorageServices.then((localStorage) async {
       usernameController.text = localStorage.getUsername();
       emailController.text = localStorage.getEmail();

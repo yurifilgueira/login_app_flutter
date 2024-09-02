@@ -25,6 +25,8 @@ class SaveChangesButton extends StatelessWidget {
         onPressed: () async {
           saveChanges(emailController, usernameController,
               newPasswordController, confirmNewPasswordController);
+
+          showAlertDialog(context);
         },
         style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(
@@ -88,4 +90,32 @@ void saveUserData(
 
   localStorage.setUsername(loginResponse.user.name);
   localStorage.setEmail(loginResponse.user.email);
+}
+
+void showAlertDialog(context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        content: Text(
+          'Changes made successfully',
+          style: getTextStyle(
+              Theme.of(context).colorScheme.onPrimaryContainer, 20),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Ok',
+              style: getTextStyle(
+                  Theme.of(context).colorScheme.onPrimaryContainer, 15),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
