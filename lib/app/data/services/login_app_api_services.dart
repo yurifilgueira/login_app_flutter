@@ -13,7 +13,13 @@ class LoginAppApiServices {
     return _api.signin(email, passowrd);
   }
 
-  Future<http.Response> register(String username, String email, String passowrd) async {
+  Future<http.Response> register(
+      String username, String email, String passowrd) async {
     return _api.register(username, email, passowrd);
+  }
+
+  Future<LoginResponse> updateUserInfo(int id,
+      String username, String email, String newPassowrd, String confirmNewPassowrd) async {
+    return _api.updateUserInfo(id, username, email, newPassowrd, confirmNewPassowrd);
   }
 }

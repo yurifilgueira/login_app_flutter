@@ -48,20 +48,20 @@ class LoginAppApi {
     return await client.post(uri, headers: contentType, body: jsonEncode(body));
   }
 
-  Future<LoginResponse> updateUserInfo(int id, String name, String email,
+  Future<LoginResponse> updateUserInfo(int id, String username, String email,
       String newPassword, String confirmNewPassword) async {
     var client = http.Client();
-    var uri = Uri.parse('$path/auth/signin');
+    var uri = Uri.parse('$path/users');
     var body = {
       'id': id,
-      'name': name,
+      'name': username,
       'email': email,
       'newPassword': newPassword,
       'confirmNewPassword': confirmNewPassword
     };
     var contentType = {'Content-Type': 'application/json'};
     var response =
-        await client.post(uri, headers: contentType, body: jsonEncode(body));
+        await client.put(uri, headers: contentType, body: jsonEncode(body));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as Map<String, dynamic>;

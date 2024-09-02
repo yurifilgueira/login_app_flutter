@@ -50,6 +50,8 @@ class LoginActionButton extends StatelessWidget {
           key: 'accessToken', value: loginResponse.tokenResponse.accessToken);
       await flutterSecureStorage.write(
           key: 'refreshToken', value: loginResponse.tokenResponse.refreshToken);
+                await flutterSecureStorage.write(
+          key: 'userId', value: loginResponse.user.id.toString());
 
       if (context.mounted) {
         Navigator.pushReplacement(context,
