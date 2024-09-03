@@ -23,10 +23,21 @@ class SaveChangesButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         onPressed: () async {
-          saveChanges(emailController, usernameController,
-              newPasswordController, confirmNewPasswordController);
+          final dataIsValid = await verifyData(
+              emailController,
+              usernameController,
+              newPasswordController,
+              confirmNewPasswordController,
+              context);
 
-          showAlertDialog(context, 'Changes made successfully');
+          if (dataIsValid) {
+            saveChanges(emailController, usernameController,
+                newPasswordController, confirmNewPasswordController);
+
+            if (context.mounted) {
+              showAlertDialog(context, 'Changes made successfully');
+            }
+          }
         },
         style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(
@@ -97,4 +108,36 @@ void clearPasswordFields(TextEditingController newPasswordController,
     TextEditingController confirmNewPasswordController) {
   newPasswordController.clear();
   confirmNewPasswordController.clear();
+}
+
+Future<bool> verifyData(
+    TextEditingController emailController,
+    TextEditingController usernameController,
+    TextEditingController newPasswordController,
+    TextEditingController confirmNewPasswordController,
+    BuildContext context) async {
+  final localStorage = await AppLocalStorageServices.getInstance();
+
+  final newPassowrd = newPasswordController.text;
+  final confirmNewPassword = confirmNewPasswordController.text;
+
+  if (newPassowrd != confirmNewPassword) {
+    if (context.mounted) {
+      showAlertDialog(context, "The passwords must correspond");
+    }
+    return false;
+  }
+
+  final email = emailController.text;
+  final username = usernameController.text;
+
+  if (email == localStorage.getEmail() &&
+      username == localStorage.getUsername()) {
+    if (context.mounted) {
+      showAlertDialog(context, "There are no changes to save");
+    }
+    return false;
+  }
+
+  return true;
 }
