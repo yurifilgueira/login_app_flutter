@@ -50,7 +50,7 @@ class LoginActionButton extends StatelessWidget {
           key: 'accessToken', value: loginResponse.tokenResponse.accessToken);
       await flutterSecureStorage.write(
           key: 'refreshToken', value: loginResponse.tokenResponse.refreshToken);
-                await flutterSecureStorage.write(
+      await flutterSecureStorage.write(
           key: 'userId', value: loginResponse.user.id.toString());
 
       if (context.mounted) {
@@ -59,12 +59,10 @@ class LoginActionButton extends StatelessWidget {
       }
     } catch (error) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Ocorreu um erro: $error'),
-          ),
-        );
+        final message = error.toString().replaceAll("Exception: ", "");
+        showAlertDialog(context, message);
       }
     }
   }
 }
+

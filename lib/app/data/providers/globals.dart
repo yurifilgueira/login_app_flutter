@@ -45,9 +45,8 @@ getEmailInputDecoration(color) {
   );
 }
 
-getPasswordInputDecoration(color, labelText, passwordIcon, changePasswordVisbility) {
-  
-  
+getPasswordInputDecoration(
+    color, labelText, passwordIcon, changePasswordVisbility) {
   return InputDecoration(
     border: const OutlineInputBorder(),
     enabledBorder: OutlineInputBorder(
@@ -57,13 +56,69 @@ getPasswordInputDecoration(color, labelText, passwordIcon, changePasswordVisbili
     fillColor: color,
     hoverColor: color,
     labelText: labelText,
-    labelStyle: textFont(
-        textStyle: TextStyle(color: color, fontSize: 20)),
+    labelStyle: textFont(textStyle: TextStyle(color: color, fontSize: 20)),
     suffixIcon: IconButton(
       icon: Icon(passwordIcon, color: color),
       onPressed: () {
         changePasswordVisbility();
       },
     ),
+  );
+}
+
+void showAlertDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        content: Text(
+          message,
+          style: getTextStyle(
+              Theme.of(context).colorScheme.onPrimaryContainer, 20),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Ok',
+              style: getTextStyle(
+                  Theme.of(context).colorScheme.onPrimaryContainer, 15),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showRegisterSuccessDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        content: Text(
+          message,
+          style: getTextStyle(
+              Theme.of(context).colorScheme.onPrimaryContainer, 20),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Ok',
+              style: getTextStyle(
+                  Theme.of(context).colorScheme.onPrimaryContainer, 15),
+            ),
+          ),
+        ],
+      );
+    },
   );
 }

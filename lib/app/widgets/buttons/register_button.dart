@@ -80,13 +80,6 @@ class RegisterActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryContainerColor =
-        Theme.of(context).colorScheme.primaryContainer;
-    final onPrimaryContainerColor =
-        Theme.of(context).colorScheme.onPrimaryContainer;
-
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-
     return ElevatedButton(
         onPressed: () async {
           final loginAppApiServices = LoginAppApiServices();
@@ -98,15 +91,17 @@ class RegisterActionButton extends StatelessWidget {
           final response =
               await loginAppApiServices.register(username, email, password);
 
-          final snackBar = SnackBar(
-            content: Text(response.body,
-                style: getTextStyle(primaryContainerColor, 20)),
-            backgroundColor: onPrimaryContainerColor.withAlpha(200),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.0)),
-          );
-
-          scaffoldMessenger.showSnackBar(snackBar);
+          if (context.mounted) {
+            if (response.statusCode == 201) {
+              showRegisterSuccessDialog(context, response.body);
+              usernameController.clear();
+              emailController.clear();
+              passwordController.clear();
+            }
+            else {
+              showAlertDialog(context, response.body);
+            }
+          }
         },
         style: ButtonStyle(
             backgroundColor:

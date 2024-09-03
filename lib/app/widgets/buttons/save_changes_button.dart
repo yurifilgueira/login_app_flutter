@@ -26,7 +26,7 @@ class SaveChangesButton extends StatelessWidget {
           saveChanges(emailController, usernameController,
               newPasswordController, confirmNewPasswordController);
 
-          showAlertDialog(context);
+          showAlertDialog(context, 'Changes made successfully');
         },
         style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(
@@ -72,6 +72,7 @@ void saveChanges(
       id, username, email, newPassowrd, confirmNewPassowrd);
 
   saveUserData(loginResponse, flutterSecureStorage, localStorage);
+  clearPasswordFields(newPasswordController, confirmNewPasswordController);
 }
 
 void saveUserData(
@@ -92,30 +93,8 @@ void saveUserData(
   localStorage.setEmail(loginResponse.user.email);
 }
 
-void showAlertDialog(context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        content: Text(
-          'Changes made successfully',
-          style: getTextStyle(
-              Theme.of(context).colorScheme.onPrimaryContainer, 20),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              'Ok',
-              style: getTextStyle(
-                  Theme.of(context).colorScheme.onPrimaryContainer, 15),
-            ),
-          ),
-        ],
-      );
-    },
-  );
+void clearPasswordFields(TextEditingController newPasswordController,
+    TextEditingController confirmNewPasswordController) {
+  newPasswordController.clear();
+  confirmNewPasswordController.clear();
 }

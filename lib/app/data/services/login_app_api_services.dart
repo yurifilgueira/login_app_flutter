@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:login_app/app/data/models/login_response.dart';
 import 'package:login_app/app/data/models/user.dart';
 import 'package:login_app/app/data/providers/login_app_api.dart';
@@ -10,7 +12,18 @@ class LoginAppApiServices {
   }
 
   Future<LoginResponse> signin(String email, String passowrd) async {
-    return _api.signin(email, passowrd);
+    final _response = await _api.signin(email, passowrd);
+
+    if (_response.statusCode == 200) {
+      final data = jsonDecode(_response.body) as Map<String, dynamic>;
+      return LoginResponse.fromJson(data);
+    }
+    else if (_response.statusCode == 401) {
+      throw Exception('Invalid email or password.');
+    }
+    else {
+      throw Exception('A error has ocurred.');
+    }
   }
 
   Future<http.Response> register(
@@ -18,8 +31,9 @@ class LoginAppApiServices {
     return _api.register(username, email, passowrd);
   }
 
-  Future<LoginResponse> updateUserInfo(int id,
-      String username, String email, String newPassowrd, String confirmNewPassowrd) async {
-    return _api.updateUserInfo(id, username, email, newPassowrd, confirmNewPassowrd);
+  Future<LoginResponse> updateUserInfo(int id, String username, String email,
+      String newPassowrd, String confirmNewPassowrd) async {
+    return _api.updateUserInfo(
+        id, username, email, newPassowrd, confirmNewPassowrd);
   }
 }
