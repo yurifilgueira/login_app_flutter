@@ -10,8 +10,10 @@ class RegisterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
     final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController confirmPasswordController = TextEditingController();
+
 
     final Color colorOnPrimaryContainer =
         Theme.of(context).colorScheme.onPrimaryContainer;
@@ -34,12 +36,18 @@ class RegisterCard extends StatelessWidget {
               const SizedBox(height: 30),
               EmailTextField(controller: emailController),
               const SizedBox(height: 30),
-              PasswordTextField(controller: passwordController,labelText: 'Password'),
+              PasswordTextField(
+                  controller: passwordController, labelText: 'Password'),
+              const SizedBox(height: 30),
+              PasswordTextField(
+                  controller: confirmPasswordController,
+                  labelText: 'Confirm Password'),
               const SizedBox(height: 50),
               AuthActions.register(
                 usernameController: usernameController,
                 emailController: emailController,
                 passwordController: passwordController,
+                confirmPasswordController: confirmPasswordController,
               ),
             ],
           )),

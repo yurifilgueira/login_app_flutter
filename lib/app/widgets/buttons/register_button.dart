@@ -8,19 +8,23 @@ class RegisterButton extends StatelessWidget {
   final TextEditingController? usernameController;
   final TextEditingController? emailController;
   final TextEditingController? passwordController;
+    final TextEditingController? confirmPasswordController;
+
 
   const RegisterButton.login({
     super.key,
   })  : isRegisterPage = false,
         usernameController = null,
         emailController = null,
-        passwordController = null;
+        passwordController = null,
+        confirmPasswordController = null;
 
   const RegisterButton.register({
     super.key,
     required this.usernameController,
     required this.emailController,
     required this.passwordController,
+    required this.confirmPasswordController,
   }) : isRegisterPage = true;
 
   @override
@@ -35,6 +39,7 @@ class RegisterButton extends StatelessWidget {
         usernameController: usernameController!,
         emailController: emailController!,
         passwordController: passwordController!,
+        confirmPasswordController: confirmPasswordController!,
       );
     }
   }
@@ -70,13 +75,15 @@ class RegisterActionButton extends StatelessWidget {
   final TextEditingController usernameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
 
   const RegisterActionButton(
       {super.key,
       required this.textTheme,
       required this.usernameController,
       required this.emailController,
-      required this.passwordController});
+      required this.passwordController,
+      required this.confirmPasswordController});
 
   @override
   Widget build(BuildContext context) {
@@ -87,19 +94,25 @@ class RegisterActionButton extends StatelessWidget {
           final username = usernameController.text.toLowerCase();
           final email = emailController.text.toLowerCase();
           final password = passwordController.text.toLowerCase();
+          final confirmPassword = confirmPasswordController.text.toLowerCase();
 
-          final response =
-              await loginAppApiServices.register(username, email, password);
+          final dataIsValid = verifyData(email, username, password, confirmPassword, context);
 
-          if (context.mounted) {
-            if (response.statusCode == 201) {
-              showRegisterSuccessDialog(context, response.body);
-              usernameController.clear();
-              emailController.clear();
-              passwordController.clear();
-            }
-            else {
-              showAlertDialog(context, response.body);
+          if (dataIsValid) {
+            final response =
+                await loginAppApiServices.register(username, email, password);
+
+            if (context.mounted) {
+              if (response.statusCode == 201) {
+                showRegisterSuccessDialog(context, response.body);
+                usernameController.clear();
+                emailController.clear();
+                passwordController.clear();
+                confirmPasswordController.clear();
+              }
+              else {
+                showAlertDialog(context, response.body);
+              }
             }
           }
         },
@@ -111,4 +124,38 @@ class RegisterActionButton extends StatelessWidget {
           style: getTextStyle(textTheme.primaryContainer, 18),
         ));
   }
+}
+
+
+bool verifyData(String email,
+    String username,
+    String passowrd,
+    String confirmPassword,
+    BuildContext context) {
+
+
+  if (email == "" &&
+      username == "") {
+    if (context.mounted) {
+      showAlertDialog(context, "All fields must be filled in");
+    }
+    return false;
+  }
+
+  if (passowrd == "" && confirmPassword == "") {
+    if (context.mounted) {
+      showAlertDialog(context, "All fields must be filled in");
+    }
+    return false;
+  }
+
+  if (passowrd != confirmPassword) {
+    if (context.mounted) {
+      showAlertDialog(context, "The passwords must correspond");
+    }
+    return false;
+  }
+
+  return true;
+
 }

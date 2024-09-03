@@ -12,13 +12,13 @@ class LoginAppApiServices {
   }
 
   Future<LoginResponse> signin(String email, String passowrd) async {
-    final _response = await _api.signin(email, passowrd);
+    final response = await _api.signin(email, passowrd);
 
-    if (_response.statusCode == 200) {
-      final data = jsonDecode(_response.body) as Map<String, dynamic>;
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
       return LoginResponse.fromJson(data);
     }
-    else if (_response.statusCode == 401) {
+    else if (response.statusCode == 401) {
       throw Exception('Invalid email or password.');
     }
     else {
