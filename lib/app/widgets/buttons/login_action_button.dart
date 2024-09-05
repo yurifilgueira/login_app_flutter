@@ -18,7 +18,9 @@ class LoginActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () => login(context),
+        onPressed: () => {
+              if (_verifyData(context)) {_login(context)}
+            },
         style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(
                 Theme.of(context).colorScheme.onPrimaryContainer)),
@@ -29,7 +31,20 @@ class LoginActionButton extends StatelessWidget {
         ));
   }
 
-  void login(BuildContext context) async {
+  bool _verifyData(BuildContext context) {
+    final email = emailController.text;
+    final password = passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      showAlertDialog(context, 'All fields must be filled in');
+
+      return false;
+    }
+
+    return true;
+  }
+
+  void _login(BuildContext context) async {
     try {
       final loginAppApiServices = LoginAppApiServices();
 
@@ -65,4 +80,3 @@ class LoginActionButton extends StatelessWidget {
     }
   }
 }
-

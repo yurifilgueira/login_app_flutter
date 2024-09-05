@@ -4,7 +4,7 @@ import 'package:login_app/app/data/providers/globals.dart';
 import 'package:login_app/app/pages/login_page.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
+ await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 

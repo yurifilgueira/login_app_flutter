@@ -22,7 +22,7 @@ class LoginAppApiServices {
       throw Exception('Invalid email or password.');
     }
     else {
-      throw Exception('A error has ocurred.');
+      throw Exception('An error occurred');
     }
   }
 

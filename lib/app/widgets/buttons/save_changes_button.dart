@@ -132,7 +132,7 @@ Future<bool> verifyData(
   final username = usernameController.text;
 
   if (email == localStorage.getEmail() &&
-      username == localStorage.getUsername()) {
+      username == localStorage.getUsername() && newPassowrd.isEmpty) {
     if (context.mounted) {
       showAlertDialog(context, "There are no changes to save");
     }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:login_app/app/data/models/login_response.dart';
 import 'package:login_app/app/data/models/user.dart';
@@ -54,9 +55,14 @@ class LoginAppApi {
       'newPassword': newPassword,
       'confirmNewPassword': confirmNewPassword
     };
-    var contentType = {'Content-Type': 'application/json'};
-    var response =
-        await client.put(uri, headers: contentType, body: jsonEncode(body));
+    final accessToken = await _getAccessToken();
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': ('Bearer ' + accessToken)
+    };
+
+    var response = await client.put(uri,
+        headers: headers, body: jsonEncode(body));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -64,5 +70,17 @@ class LoginAppApi {
     } else {
       throw Exception('Login failed with status code: ${response.statusCode}');
     }
+  }
+}
+
+Future<String> _getAccessToken() async {
+  const flutterSecureStorage = FlutterSecureStorage();
+
+  final accessToken = await flutterSecureStorage.read(key: 'accessToken');
+
+  if (accessToken == null) {
+    throw Exception('Error');
+  } else {
+    return accessToken;
   }
 }
