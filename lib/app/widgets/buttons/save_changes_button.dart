@@ -30,13 +30,9 @@ class SaveChangesButton extends StatelessWidget {
               confirmNewPasswordController,
               context);
 
-          if (dataIsValid) {
+          if (dataIsValid && context.mounted) {
             saveChanges(emailController, usernameController,
-                newPasswordController, confirmNewPasswordController);
-
-            if (context.mounted) {
-              showAlertDialog(context, 'Changes made successfully');
-            }
+                newPasswordController, confirmNewPasswordController, context);
           }
         },
         style: ButtonStyle(
@@ -62,7 +58,8 @@ void saveChanges(
     TextEditingController emailController,
     TextEditingController usernameController,
     TextEditingController newPasswordController,
-    TextEditingController confirmNewPasswordController) async {
+    TextEditingController confirmNewPasswordController,
+    BuildContext context) async {
   final localStorage = await AppLocalStorageServices.getInstance();
   const flutterSecureStorage = FlutterSecureStorage();
   final loginServies = LoginAppApiServices();
@@ -79,19 +76,29 @@ void saveChanges(
   final newPassowrd = newPasswordController.text;
   final confirmNewPassowrd = confirmNewPasswordController.text;
 
-  final loginResponse = await loginServies.updateUserInfo(
-      id, username, email, newPassowrd, confirmNewPassowrd);
+  try {
+    final loginResponse = await loginServies.updateUserInfo(
+        id, username, email, newPassowrd, confirmNewPassowrd);
 
-  saveUserData(loginResponse, flutterSecureStorage, localStorage);
-  clearPasswordFields(newPasswordController, confirmNewPasswordController);
+    saveUserData(loginResponse, flutterSecureStorage, localStorage);
+    clearPasswordFields(newPasswordController, confirmNewPasswordController);
+
+    if (context.mounted) {
+      showAlertDialog(context, "Changes made successfully");
+    }
+  } catch (e) {
+    if (context.mounted) {
+      if (e.toString().contains("Session expired")) {
+        showSessionExpiredAlertDialog(context, clearStorage);
+      }
+    }
+  }
 }
 
 void saveUserData(
     LoginResponse loginResponse,
     FlutterSecureStorage flutterSecureStorage,
     AppLocalStorageServices localStorage) {
-  clearStorage();
-
   final accessToken = loginResponse.tokenResponse.accessToken;
   final refreshToken = loginResponse.tokenResponse.refreshToken;
   final userId = loginResponse.user.id.toString();
@@ -132,7 +139,8 @@ Future<bool> verifyData(
   final username = usernameController.text;
 
   if (email == localStorage.getEmail() &&
-      username == localStorage.getUsername() && newPassowrd.isEmpty) {
+      username == localStorage.getUsername() &&
+      newPassowrd.isEmpty) {
     if (context.mounted) {
       showAlertDialog(context, "There are no changes to save");
     }

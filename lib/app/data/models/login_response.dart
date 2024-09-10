@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:login_app/app/data/models/token_response.dart';
 import 'package:login_app/app/data/models/user.dart';
 
-LoginResponse tokenResponseFromJson(String str) =>
+LoginResponse loginResponseFromJson(String str) =>
     LoginResponse.fromJson(json.decode(str));
 
-String tokenResponseToJson(LoginResponse data) => json.encode(data.toJson());
-String tokenResponseListToJson(List<LoginResponse> data) =>
+String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
+String loginResponseListToJson(List<LoginResponse> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 

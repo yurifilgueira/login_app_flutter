@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/app/pages/login_page.dart';
 
 const textFont = GoogleFonts.bebasNeue;
 
@@ -110,6 +111,37 @@ void showRegisterSuccessDialog(BuildContext context, String message) {
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
+            },
+            child: Text(
+              'Ok',
+              style: getTextStyle(
+                  Theme.of(context).colorScheme.onPrimaryContainer, 15),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showSessionExpiredAlertDialog(BuildContext context, clearStorage) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        content: Text(
+          'Session expired',
+          style: getTextStyle(
+              Theme.of(context).colorScheme.onPrimaryContainer, 20),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              clearStorage();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
             },
             child: Text(
               'Ok',

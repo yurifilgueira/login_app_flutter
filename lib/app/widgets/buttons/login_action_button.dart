@@ -50,24 +50,9 @@ class LoginActionButton extends StatelessWidget {
 
       final email = emailController.text.toLowerCase();
       final password = passwordController.text.toLowerCase();
+        final loginResponse = await loginAppApiServices.signin(email, password);
 
-      final loginResponse = await loginAppApiServices.signin(email, password);
-
-      const flutterSecureStorage = FlutterSecureStorage();
-      final localStorage = await AppLocalStorageServices.getInstance();
-
-      final username = loginResponse.user.name;
-
-      await localStorage.setUsername(username);
-      await localStorage.setEmail(email);
-
-      await flutterSecureStorage.write(
-          key: 'accessToken', value: loginResponse.tokenResponse.accessToken);
-      await flutterSecureStorage.write(
-          key: 'refreshToken', value: loginResponse.tokenResponse.refreshToken);
-      await flutterSecureStorage.write(
-          key: 'userId', value: loginResponse.user.id.toString());
-
+        _saveData(email, password, loginResponse);
       if (context.mounted) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const ProfilePage()));
@@ -78,5 +63,28 @@ class LoginActionButton extends StatelessWidget {
         showAlertDialog(context, message);
       }
     }
+  }
+
+  void _saveData(email, password, loginResponse) async {
+    const flutterSecureStorage = FlutterSecureStorage();
+    final localStorage = await AppLocalStorageServices.getInstance();
+
+    final username = loginResponse.user.name;
+
+    await localStorage.setUsername(username);
+    await localStorage.setEmail(email);
+
+    await flutterSecureStorage.write(
+        key: 'accessToken', value: loginResponse.tokenResponse.accessToken);
+    await flutterSecureStorage.write(
+        key: 'refreshToken', value: loginResponse.tokenResponse.refreshToken);
+    await flutterSecureStorage.write(
+        key: 'userId', value: loginResponse.user.id.toString());
+    await flutterSecureStorage.write(
+        key: 'expiresIn',
+        value: loginResponse.tokenResponse.expiresIn.toString());
+    await flutterSecureStorage.write(
+        key: 'refreshTokenExpiresIn',
+        value: loginResponse.tokenResponse.refreshTokenExpiresIn.toString());
   }
 }
